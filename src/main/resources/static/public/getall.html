@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script type="text/javascript">
+function send() {
+const url = 'http://localhost:8080/all';
+fetch(url)
+.then(response=> {
+document.getElementById("responsestatus").innerHTML = response.status;
+console.log(response);
+if (response.status==200) {
+response.json().then(data=> {
+document.getElementById("responsenombre").innerHTML = "Nombre d'invités: "+data.length ; 
+var parag = document.createElement('p');
+parag.textContent='Liste des invités:';
+var list = document.createElement('ul');
+for (var i=0; i<data.length ;i++) {
+var listItem = document.createElement('li');
+ listItem.textContent = data[i].nom+" "+data[i].prenom+" "+data[i].email+" "+data[i].date;
+ list.appendChild(listItem);
+ }
+ parag.appendChild(list);
+ var node = document.createElement('div');
+ node.appendChild(parag);
+ document.body.appendChild(node);
+ })
+ }
+})
+.catch(error=>console.log("Erreur grave: "+error));
+}
+</script>
+<title>Page de test</title>
+</head>
+<body id='bod'>
+	<p>
+		<button type="submit" onclick="javascript:send();">Exécution</button>
+	</p>
+	<p>
+	<div id='responsestatus'></div>
+	</p>
+	<p>
+	<div id='responsenombre'></div>
+	</p>
+</body>
+</html>

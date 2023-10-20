@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script type="text/javascript">
+function send() {
+const invite = {
+nom:'Michelin',
+prenom:'Roland',
+email:'r.michelin@gmail.com'
+};
+const parametres = {
+method:'POST',
+body:JSON.stringify(invite),
+headers:{
+'Content-Type':'application/json'
+}
+};
+const url = 'http://localhost:8080/ajoutejson';
+fetch(url, parametres)
+.then(response => {
+document.getElementById("responsestatus").innerHTML = response.status;
+if(response.status==201) {
+document.getElementById("responsetexte").innerHTML ="Invité créé" ;
+document.getElementById("responseobjet").innerHTML
+=response.headers.get('Location');
+}
+else
+document.getElementById("responsetexte").innerHTML = "Erreur, code de retour incorrect!";
+})
+.catch(error => alert("Erreur : " + error));
+}
+</script>
+<title>Page de test addjson.html</title>
+</head>
+<body id='bod'>
+	<p>
+		<button type="submit" onclick="javascript:send();">Exécution</button>
+	</p>
+	<p>
+	<div id='responsestatus'></div>
+	</p>
+	<p>
+	<div id='responsetexte'></div>
+	</p>
+	<p>
+	<div id='responseobjet'></div>
+	</p>
+</body>
+</html>
